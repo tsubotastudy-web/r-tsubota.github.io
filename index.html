@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ryosuke Tsubota</title>
+<meta name="description" content="坪田凌輔（武蔵野大学大学院 工学研究科 数理工学専攻）の研究ページ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;700&display=swap">
+<style>
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+/* Layout: 論文のような 2 カラム（左に節見出し，右に本文）．冒頭は差分方程式の時空格子図を横いっぱいに置く． */
+:root {
+  --bg: #F3F5F7;
+  --surface: #FFFFFF;
+  --ink: #18212D;
+  --muted: #5B6776;
+  --rule: #D5DCE4;
+  --accent: #1E5A8A;
+  --heat: #D9822B;
+  --hot: #B5302A;
+  --cell: #E2E7ED;
+  --todo: #865A00;
+  --todo-bg: #FFF4D6;
+
+  --f-display: "STIX Two Text", "Times New Roman", "Hiragino Mincho ProN", serif;
+  --f-mincho: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --f-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 0.96875rem;
+  --step-1: 1.125rem;
+  --step-2: 1.375rem;
+  --step-3: 2rem;
+  --step-4: clamp(2.25rem, 5vw, 3.25rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E131A; --surface: #151C25; --ink: #E3E8EF; --muted: #97A3B2; --rule: #263140;
+    --accent: #7FB5E2; --heat: #EFA04C; --hot: #EE5F57; --cell: #1A232E;
+    --todo: #E9C463; --todo-bg: #2A2413;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E131A; --surface: #151C25; --ink: #E3E8EF; --muted: #97A3B2; --rule: #263140;
+  --accent: #7FB5E2; --heat: #EFA04C; --hot: #EE5F57; --cell: #1A232E;
+  --todo: #E9C463; --todo-bg: #2A2413;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--step-0);
+  line-height: 1.85;
+  -webkit-text-size-adjust: 100%;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--bg);
+}
+a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+.wrap {
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- ナビゲーション ---------- */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav .wrap { display: flex; align-items: center; gap: 1rem 2rem; padding-block: 0.6rem; flex-wrap: wrap; }
+.brand {
+  font-family: var(--f-display); font-style: italic; font-weight: 600;
+  font-size: var(--step-1); color: var(--ink); text-decoration: none; white-space: nowrap;
+}
+.nav ul {
+  list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem 1.25rem;
+  overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1 1 auto;
+}
+.nav ul::-webkit-scrollbar { display: none; }
+.nav li a {
+  font-family: var(--f-mono); font-size: var(--step--1); letter-spacing: 0.04em;
+  color: var(--muted); text-decoration: none; white-space: nowrap; padding-block: 0.25rem; display: inline-block;
+  border-bottom: 1px solid transparent;
+}
+.nav li a:hover, .nav li a[aria-current="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* ---------- 冒頭 ---------- */
+.hero { padding-block: clamp(2.5rem, 6vw, 4.5rem) 0; }
+.hero-text { display: grid; gap: 0.9rem; }
+.eyebrow {
+  font-family: var(--f-mono); font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+}
+.hero h1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 1.25rem; }
+.hero h1 .ja { font-family: var(--f-mincho); font-weight: 700; font-size: var(--step-4); letter-spacing: 0.06em; line-height: 1.2; }
+.hero h1 .en { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: var(--step-3); color: var(--muted); line-height: 1.2; }
+.hero .aff { color: var(--muted); }
+.hero .thesis { font-size: var(--step-1); max-width: 40em; }
+.m { font-family: var(--f-display); white-space: nowrap; font-size: 1.06em; }
+.m i { font-style: italic; }
+.m sub, .m sup { font-size: 0.72em; line-height: 0; }
+
+.lattice { margin: clamp(1.75rem, 4vw, 2.75rem) auto 0; }
+.lattice-frame { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
+.axis {
+  font-family: var(--f-mono); font-size: var(--step--1); color: var(--muted); white-space: nowrap;
+}
+.axis-x { justify-self: end; }
+#lattice {
+  display: block; width: 100%; max-width: 100%; aspect-ratio: 101 / 46; height: auto;
+  background: var(--bg);
+}
+.lattice figcaption {
+  margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: center;
+  font-size: var(--step--1); color: var(--muted); line-height: 1.7;
+}
+.lattice figcaption .cap { flex: 1 1 28rem; min-width: 0; }
+.legend { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--f-mono); white-space: nowrap; }
+.legend .bar {
+  width: 7rem; height: 0.6rem; border-radius: 1px;
+  background: linear-gradient(90deg, var(--cell), var(--accent) 45%, var(--heat) 80%, var(--hot));
+}
+.btn {
+  font: 500 var(--step--1) var(--f-mono); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 4px; padding: 0.35rem 0.75rem; cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 節 ---------- */
+main { padding-block: clamp(2rem, 5vw, 3.5rem) 0; }
+.sec { border-top: 1px solid var(--rule); }
+.sec > .wrap {
+  display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 1rem 3rem;
+  padding-block: clamp(2.25rem, 5vw, 3.5rem);
+}
+.sec-head h2 {
+  font-family: var(--f-display); font-weight: 600; font-size: var(--step-2); line-height: 1.3;
+}
+.sec-head h2 .sym { color: var(--accent); font-weight: 400; margin-right: 0.3em; }
+.sec-head p { font-size: var(--step--1); color: var(--muted); margin-top: 0.2rem; }
+.sec-body { display: grid; gap: 2rem; min-width: 0; max-width: 46rem; }
+.sub-head {
+  font-family: var(--f-mono); font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--rule);
+}
+
+/* About */
+.about-top { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.avatar {
+  width: 6.5rem; aspect-ratio: 1; max-width: 100%; border-radius: 4px; display: grid; place-items: center;
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 13px 13px; background-position: -1px -1px;
+  border: 1px solid var(--rule);
+  font-family: var(--f-mincho); font-weight: 700; font-size: 2.5rem; color: var(--ink);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+.intro { display: grid; gap: 0.8rem; }
+.intro .en { color: var(--muted); font-size: var(--step--1); line-height: 1.75; }
+.facts { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); margin: 0; }
+.facts dt, .facts dd { padding-block: 0.65rem; border-bottom: 1px solid var(--rule); margin: 0; }
+.facts dt { font-size: var(--step--1); color: var(--muted); padding-top: 0.75rem; }
+
+/* Research */
+.theme { display: grid; gap: 0.7rem; }
+.theme + .theme { padding-top: 2rem; border-top: 1px dashed var(--rule); }
+.theme-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; }
+.theme h3 { font-family: var(--f-mincho); font-weight: 700; font-size: var(--step-2); line-height: 1.45; letter-spacing: 0.02em; }
+.theme .en { font-family: var(--f-display); font-style: italic; color: var(--muted); }
+.status {
+  font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.06em; color: var(--heat);
+  border: 1px solid currentColor; border-radius: 999px; padding: 0 0.55rem; line-height: 1.6; white-space: nowrap;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0; padding: 0; }
+.chips li {
+  font-size: var(--step--1); color: var(--muted); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 3px; padding: 0.05rem 0.5rem;
+}
+.refs { font-size: var(--step--1); color: var(--muted); }
+.refs a { font-family: var(--f-mono); }
+
+/* Publications */
+.pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
+.pubs li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.5rem; scroll-margin-top: 5rem; }
+.pubs .num { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.pubs .title { font-family: var(--f-display); font-style: italic; font-size: 1.06em; }
+.pubs .meta { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; margin-top: 0.2rem; font-size: var(--step--1); color: var(--muted); }
+.pubs li:target .title { background: color-mix(in srgb, var(--heat) 22%, transparent); }
+
+/* Talks / Experience */
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li {
+  display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 0.25rem 1.25rem;
+  padding-block: 0.8rem; border-bottom: 1px solid var(--rule);
+}
+.rows .when { font-family: var(--f-mono); font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 0.15rem; }
+.rows .what { min-width: 0; }
+.rows .what strong { font-weight: 500; }
+.rows .sub { font-size: var(--step--1); color: var(--muted); }
+.kind { font-family: var(--f-mono); font-size: 0.75rem; color: var(--accent); margin-left: 0.4rem; white-space: nowrap; }
+.upcoming .when { color: var(--heat); }
+
+/* Links */
+.links { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: 0.75rem; }
+.link {
+  display: grid; gap: 0.15rem; padding: 0.85rem 1rem; background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 4px; text-decoration: none; color: var(--ink); min-width: 0;
+}
+a.link:hover { border-color: var(--accent); }
+.link .name { font-weight: 500; }
+.link .desc { font-size: var(--step--1); color: var(--muted); }
+.link .url { font-family: var(--f-mono); font-size: 0.75rem; color: var(--accent); overflow-wrap: anywhere; }
+
+/* 要記入 */
+.todo {
+  color: var(--todo); background: var(--todo-bg); border: 1px dashed currentColor; border-radius: 3px;
+  padding: 0 0.35em; font-family: var(--f-body); font-style: normal; font-size: 0.9em;
+}
+
+footer { border-top: 1px solid var(--rule); }
+footer .wrap {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem;
+  padding-block: 1.75rem 2.5rem; font-family: var(--f-mono); font-size: var(--step--1); color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .sec > .wrap { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .rows li { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .facts dt { border-bottom: 0; padding-bottom: 0; }
+  .facts dd { padding-top: 0.1rem; }
+}
+@media (max-width: 460px) {
+  .about-top { grid-template-columns: minmax(0, 1fr); }
+  .avatar { width: 5rem; font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="ページ内の移動">
+  <div class="wrap">
+    <a class="brand" href="#top">R. Tsubota</a>
+    <ul id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#talks">Talks</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li data-section="activities"><a href="#activities">Activities</a></li>
+      <li><a href="#links">Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-text">
+    <p class="eyebrow">Researcher's page · Mathematical Engineering</p>
+    <h1><span class="ja" id="name-ja"></span><span class="en" id="name-en"></span></h1>
+    <p class="aff" id="hero-aff"></p>
+    <p class="thesis" id="hero-thesis"></p>
+  </div>
+  <figure class="wrap lattice">
+    <div class="lattice-frame">
+      <span class="axis axis-t">↑ 時間 n</span>
+      <canvas id="lattice" role="img" aria-label="差分スキームで計算した数値解の時空図．下から上へ時間が進み，中央付近で値が急増して爆発する．"></canvas>
+      <span class="axis axis-x">空間 j →</span>
+    </div>
+    <figcaption>
+      <span class="cap">
+        1 次元の中心差分スキーム
+        <span class="m"><i>u</i><sub><i>j</i></sub><sup><i>n</i>+1</sup> = <i>u</i><sub><i>j</i>+1</sub><sup><i>n</i></sup> + <i>u</i><sub><i>j</i>−1</sub><sup><i>n</i></sup> − <i>u</i><sub><i>j</i></sub><sup><i>n</i>−1</sup> + <i>δ</i><sup>2</sup>|<i>u</i><sub><i>j</i></sub><sup><i>n</i></sup>|<sup><i>p</i></sup></span>
+        （<span class="m"><i>p</i> = 2</span>）による数値解の時空図．各マスが格子点 (<i>j</i>, <i>n</i>) を表し，色は <span class="m">|<i>u</i><sub><i>j</i></sub><sup><i>n</i></sup>|</span> の大きさ（対数目盛）．台の有界な初期値から出発し，<span id="blow-note">有限の時間ステップで爆発する</span>．
+      </span>
+      <span class="legend" aria-hidden="true">0 <span class="bar"></span> 爆発</span>
+      <button class="btn" id="replay" type="button">もう一度計算する</button>
+    </figcaption>
+  </figure>
+</header>
+
+<main>
+  <section class="sec" id="about">
+    <div class="wrap">
+      <header class="sec-head"><h2><span class="sym">§</span>About</h2><p>自己紹介</p></header>
+      <div class="sec-body" id="about-body"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="research">
+    <div class="wrap">
+      <header class="sec-head"><h2><span class="sym">§</span>Research</h2><p>研究内容</p></header>
+      <div class="sec-body" id="research-body"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="publications">
+    <div class="wrap">
+      <header class="sec-head"><h2><span class="sym">§</span>Publications</h2><p>論文</p></header>
+      <div class="sec-body"><ol class="pubs" id="pubs"></ol></div>
+    </div>
+  </section>
+
+  <section class="sec" id="talks">
+    <div class="wrap">
+      <header class="sec-head"><h2><span class="sym">§</span>Talks</h2><p>講演・参加予定</p></header>
+      <div class="sec-body" id="talks-body"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="experience">
+    <div class="wrap">
+      <header class="sec-head"><h2><span class="sym">§</span>Experience</h2><p>経歴</p></header>
+      <div class="sec-body"><ul class="rows" id="experience-list"></ul></div>
+    </div>
+  </section>
+
+  <section class="sec" id="activities">
+    <div class="wrap">
+      <header class="sec-head"><h2><span class="sym">§</span>Activities</h2><p>TA・RA・受賞など</p></header>
+      <div class="sec-body"><ul class="rows" id="activities-list"></ul></div>
+    </div>
+  </section>
+
+  <section class="sec" id="links">
+    <div class="wrap">
+      <header class="sec-head"><h2><span class="sym">§</span>Links</h2><p>関連リンク</p></header>
+      <div class="sec-body"><div class="links" id="links-list"></div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span id="copyright"></span>
+    <span id="updated"></span>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   ここから下の SITE を書き換えれば，ページの内容が更新されます．
+   ・"TODO: …" と書いた欄は「要記入」として黄色の枠で表示されます．
+   ・todo: true の項目は，内容が未確定の項目です．
+   ・公開前に SHOW_TODO を false にすると，未記入の欄と項目は表示されなくなります．
+   ・数式は <span class="m"> … </span> の中に HTML（<i>, <sub>, <sup>）で書きます．
+   ===================================================================== */
+const SHOW_TODO = true;
+
+const SITE = {
+  updated: "2026.11.01",
+  name: { ja: "坪田 凌輔", en: "Ryosuke Tsubota", initial: "坪" },
+  photo: "", // 写真を使う場合は "images/photo.jpg" のように書く
+  affiliation: "武蔵野大学大学院 工学研究科 数理工学専攻 博士課程",
+  thesis: "非線形偏微分方程式を差分化した方程式について，解の<strong>爆発</strong>と<strong>寿命</strong>を研究しています．",
+
+  about: {
+    ja: "武蔵野大学大学院 工学研究科 数理工学専攻 博士課程 1 年の坪田凌輔です．非線形偏微分方程式を差分化した方程式を対象に，解の爆発現象と寿命の評価を研究しています．ご覧いただきありがとうございます．",
+    en: "I am Ryosuke Tsubota, a first-year Ph.D. student in Mathematical Engineering at the Graduate School of Engineering, Musashino University. I study blow-up phenomena and lifespan estimates for difference equations obtained by discretizing nonlinear partial differential equations.",
+    facts: [
+      ["所属", "武蔵野大学大学院 工学研究科 数理工学専攻 博士課程"],
+      ["専門分野", "差分方程式，非線形波動方程式，数値解析"],
+      ["関心のある分野", "可積分系・超離散系，セルオートマトン，走化性方程式"],
+      ["所属学会", "TODO: 所属学会（例：日本応用数理学会）"],
+      ["連絡先", "TODO: メールアドレス（例：name[at]example.ac.jp）"],
+      ["趣味", "TODO: 趣味"]
+    ]
+  },
+
+  research: [
+    {
+      title: "離散半線形波動方程式の解の爆発と寿命",
+      en: "Blow-up and lifespan for discrete semilinear wave equations",
+      status: "",
+      summary: "半線形波動方程式 <span class=\"m\">∂<sub><i>t</i></sub><sup>2</sup><i>u</i> − Δ<i>u</i> = |<i>u</i>|<sup><i>p</i></sup></span> を差分化して得られる方程式について，小さな初期値に対する解の爆発と寿命の評価を研究している．連続の場合に知られている Strauss 指数や Kato 指数といった臨界指数が，離散化した方程式においてどのように現れるかに関心がある．",
+      details: "空間 1 次元の場合には，Takamura の反復法を差分方程式に適用して寿命の評価を得た．空間多次元の場合には，Kato 指数 <span class=\"m\"><i>p</i><sub>K</sub>(<i>d</i>) = (<i>d</i> + 1)/(<i>d</i> − 1)</span> までの範囲の <span class=\"m\"><i>p</i></span> に対して，寿命の上からの評価を与えた．",
+      keywords: ["差分方程式", "解の爆発", "寿命評価", "臨界指数", "反復法"],
+      refs: ["oned", "jsiam2026"]
+    },
+    {
+      title: "差分スキームの収束性と数値爆発時刻",
+      en: "Convergence of the scheme and numerical blow-up time",
+      status: "進行中",
+      summary: "離散半線形波動方程式を与える松家型スキームについて，連続問題の解への収束性と安定性を調べている．さらに，数値解の爆発時刻が連続問題の爆発時刻に収束することの証明に取り組んでいる．",
+      details: "",
+      keywords: ["数値解析", "収束性", "安定性", "数値爆発時刻"],
+      refs: []
+    }
+  ],
+
+  // 論文（上から順に [1], [2], … と番号が付きます）
+  publications: [
+    {
+      id: "jsiam2026",
+      authors: "TODO: 著者名（共著者と順序）",
+      title: "Lifespan upper bounds on a discrete semilinear wave equation",
+      journal: "JSIAM Letters", volume: "18", year: "2026", pages: "25–28",
+      doi: "", note: "査読付き"
+    },
+    {
+      id: "oned", todo: true,
+      authors: "TODO: 著者名（共著）",
+      title: "TODO: 論文題目（1 次元離散半線形波動方程式の寿命評価）",
+      journal: "TODO: 掲載誌", volume: "", year: "", pages: "",
+      doi: "", note: ""
+    }
+  ],
+
+  // 講演．status は "upcoming"（予定）か "past"（実績）．sort は並べ替え用（年-月）
+  talks: [
+    {
+      status: "upcoming", sort: "2026-11", date: "TODO: 日付",
+      title: "離散半線形波動方程式に対する解析と近況報告",
+      meeting: "応用数学フレッシュマンセミナー2026", place: "TODO: 会場", kind: "口頭発表"
+    },
+    {
+      status: "upcoming", sort: "2026-12", date: "TODO: 日付", todo: true,
+      title: "TODO: 講演題目（松家型スキームの収束性）",
+      meeting: "TODO: 研究集会名", place: "TODO: 会場", kind: "口頭発表"
+    },
+    {
+      status: "past", sort: "2026-07", date: "TODO: 日付", todo: true,
+      title: "TODO: 講演題目",
+      meeting: "EASIAM 2026", place: "TODO: 会場", kind: "TODO: 口頭／ポスター"
+    },
+    {
+      status: "past", sort: "2026-06", date: "TODO: 日付", todo: true,
+      title: "TODO: 講演題目",
+      meeting: "TODO: 研究集会名", place: "TODO: 会場", kind: "口頭発表"
+    }
+  ],
+
+  experience: [
+    { period: "2026 –", title: "武蔵野大学大学院 工学研究科 数理工学専攻 博士課程", note: "" },
+    { period: "TODO: 年", title: "TODO: 修士課程（大学・研究科・専攻）", note: "", todo: true },
+    { period: "TODO: 年", title: "TODO: 学部（大学・学部・学科）", note: "", todo: true }
+  ],
+
+  // TA・RA・受賞などを書くと Activities の節が現れます（空のままなら非表示）
+  // 例: { period: "2026.4 – 2026.7", title: "ティーチングアシスタント（線形代数）", note: "武蔵野大学" }
+  activities: [],
+
+  links: [
+    { name: "researchmap", desc: "研究業績", url: "TODO: researchmap の URL" },
+    { name: "GitHub", desc: "コード・数値計算", url: "TODO: GitHub の URL" },
+    { name: "ORCID", desc: "研究者 ID", url: "TODO: ORCID の URL" },
+    { name: "数理工学専攻", desc: "武蔵野大学大学院", url: "TODO: 専攻ページの URL" }
+  ]
+};
+
+/* ===================== 以下は表示のためのコード ===================== */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const isTodo = v => typeof v === "string" && v.startsWith("TODO");
+const val = (v, html = false) => {
+  if (v == null || v === "") return "";
+  if (isTodo(v)) return SHOW_TODO ? `<span class="todo">${esc(v.replace(/^TODO:?\s*/, ""))}</span>` : "";
+  return html ? v : esc(v);
+};
+const shown = arr => (arr || []).filter(x => SHOW_TODO || !x.todo);
+const $ = id => document.getElementById(id);
+
+function render() {
+  const S = SITE;
+  $("name-ja").textContent = S.name.ja;
+  $("name-en").textContent = S.name.en;
+  $("hero-aff").textContent = S.affiliation;
+  $("hero-thesis").innerHTML = S.thesis;
+
+  // About
+  const avatar = S.photo
+    ? `<div class="avatar"><img src="${esc(S.photo)}" alt="${esc(S.name.ja)}"></div>`
+    : `<div class="avatar" aria-hidden="true">${esc(S.name.initial)}</div>`;
+  const facts = S.about.facts
+    .filter(([, v]) => SHOW_TODO || !isTodo(v))
+    .map(([k, v]) => `<dt>${esc(k)}</dt><dd>${val(v)}</dd>`).join("");
+  $("about-body").innerHTML = `
+    <div class="about-top">${avatar}
+      <div class="intro"><p>${S.about.ja}</p><p class="en" lang="en">${S.about.en}</p></div>
+    </div>
+    <dl class="facts">${facts}</dl>`;
+
+  // 論文番号
+  const pubs = shown(S.publications);
+  const num = {};
+  pubs.forEach((p, i) => { num[p.id] = i + 1; });
+
+  // Research
+  $("research-body").innerHTML = S.research.map(t => {
+    const refs = (t.refs || []).filter(r => num[r]).sort((a, b) => num[a] - num[b]);
+    return `<article class="theme">
+      <div class="theme-title"><h3>${esc(t.title)}</h3>${t.status ? `<span class="status">${esc(t.status)}</span>` : ""}</div>
+      <p class="en" lang="en">${esc(t.en)}</p>
+      <p>${t.summary}</p>
+      ${t.details ? `<p>${t.details}</p>` : ""}
+      <ul class="chips">${t.keywords.map(k => `<li>${esc(k)}</li>`).join("")}</ul>
+      ${refs.length ? `<p class="refs">関連する論文：${refs.map(r => `<a href="#pub-${esc(r)}">[${num[r]}]</a>`).join(" ")}</p>` : ""}
+    </article>`;
+  }).join("");
+
+  // Publications
+  $("pubs").innerHTML = pubs.map((p, i) => {
+    const vol = p.volume ? ` <b>${val(p.volume)}</b>` : "";
+    const yr = p.year ? ` (${val(p.year)})` : "";
+    const pg = p.pages ? `, ${val(p.pages)}` : "";
+    const doi = p.doi && !isTodo(p.doi) ? `<a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">doi:${esc(p.doi)}</a>` : "";
+    return `<li id="pub-${esc(p.id)}">
+      <span class="num">[${i + 1}]</span>
+      <div>
+        <div>${val(p.authors)}, <span class="title">${val(p.title)}</span>,</div>
+        <div>${val(p.journal)}${vol}${yr}${pg}.</div>
+        <div class="meta">${p.note ? `<span>${esc(p.note)}</span>` : ""}${doi}</div>
+      </div>
+    </li>`;
+  }).join("");
+
+  // Talks
+  const talks = shown(S.talks);
+  const up = talks.filter(t => t.status === "upcoming").sort((a, b) => a.sort.localeCompare(b.sort));
+  const past = talks.filter(t => t.status !== "upcoming").sort((a, b) => b.sort.localeCompare(a.sort));
+  const talkRow = t => `<li class="${t.status === "upcoming" ? "upcoming" : ""}">
+      <span class="when">${val(t.date) || esc(t.sort.replace("-", "."))}</span>
+      <div class="what">
+        <strong>${val(t.title)}</strong>
+        <div class="sub">${val(t.meeting)}${t.place ? `，${val(t.place)}` : ""}${t.kind ? `<span class="kind">${val(t.kind)}</span>` : ""}</div>
+      </div>
+    </li>`;
+  $("talks-body").innerHTML =
+    (up.length ? `<div><h3 class="sub-head">予定 · Upcoming</h3><ul class="rows">${up.map(talkRow).join("")}</ul></div>` : "") +
+    (past.length ? `<div><h3 class="sub-head">発表実績 · Past</h3><ul class="rows">${past.map(talkRow).join("")}</ul></div>` : "");
+
+  // Experience / Activities
+  const timeRow = e => `<li><span class="when">${val(e.period)}</span>
+      <div class="what"><strong>${val(e.title)}</strong>${e.note ? `<div class="sub">${val(e.note)}</div>` : ""}</div></li>`;
+  $("experience-list").innerHTML = shown(S.experience).map(timeRow).join("");
+  const acts = shown(S.activities);
+  $("activities-list").innerHTML = acts.map(timeRow).join("");
+  $("activities").hidden = acts.length === 0;
+  document.querySelector('[data-section="activities"]').hidden = acts.length === 0;
+
+  // Links
+  $("links-list").innerHTML = S.links.filter(l => SHOW_TODO || !isTodo(l.url)).map(l => {
+    if (isTodo(l.url)) {
+      return `<div class="link"><span class="name">${esc(l.name)}</span><span class="desc">${esc(l.desc)}</span><span class="url">${val(l.url)}</span></div>`;
+    }
+    const host = l.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+    return `<a class="link" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="name">${esc(l.name)}</span><span class="desc">${esc(l.desc)}</span><span class="url">${esc(host)}</span></a>`;
+  }).join("");
+
+  $("copyright").textContent = `© ${S.updated.slice(0, 4)} ${S.name.en}`;
+  $("updated").textContent = `最終更新 ${S.updated}`;
+}
+render();
+
+/* ---------- 冒頭の時空図：差分スキームを実際に計算して描く ---------- */
+(function lattice() {
+  const J = 50, N = 46, d = 0.5, p = 2, eps = 0.034, CAP = 1e6;
+  const W = 2 * J + 1;
+  const g = x => (Math.abs(x) < 2 ? Math.pow(1 - (x / 2) ** 2, 2) : 0);
+
+  // u^0 = 0, u^1 = δ ε g で初期化し，u^{n+1} = u_{j+1}^n + u_{j-1}^n - u_j^{n-1} + δ^2 |u_j^n|^p
+  const rows = [];
+  let prev = new Float64Array(W), cur = new Float64Array(W);
+  for (let k = 0; k < W; k++) cur[k] = d * eps * g((k - J) * d);
+  rows.push(prev, cur);
+  let blowStep = -1;
+  for (let n = 2; n < N; n++) {
+    const next = new Float64Array(W);
+    for (let k = 0; k < W; k++) {
+      const l = k > 0 ? cur[k - 1] : 0, r = k < W - 1 ? cur[k + 1] : 0;
+      let v = l + r - prev[k] + d * d * Math.pow(Math.abs(cur[k]), p);
+      if (!isFinite(v) || Math.abs(v) >= CAP) v = CAP;
+      next[k] = v;
+    }
+    if (blowStep < 0 && next.some(v => v >= CAP)) blowStep = n;
+    prev = cur; cur = next; rows.push(cur);
+    if (blowStep > 0 && n >= blowStep + 1) break;
+  }
+  const R = rows.length;
+  if (blowStep > 0) {
+    document.getElementById("blow-note").innerHTML =
+      `<span class="m"><i>n</i> = ${blowStep}</span> で <span class="m">|<i>u</i>|</span> が <span class="m">10<sup>6</sup></span> を超える（爆発）`;
+  }
+
+  const canvas = document.getElementById("lattice");
+  canvas.style.aspectRatio = `${W} / ${R}`;
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const hex = s => {
+    s = s.trim().replace("#", "");
+    if (s.length === 3) s = s.split("").map(c => c + c).join("");
+    const n = parseInt(s, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+  let palette;
+  function readPalette() {
+    const cs = getComputedStyle(document.documentElement);
+    palette = {
+      bg: cs.getPropertyValue("--bg").trim(),
+      stops: [[0, hex(cs.getPropertyValue("--cell"))], [0.45, hex(cs.getPropertyValue("--accent"))],
+              [0.8, hex(cs.getPropertyValue("--heat"))], [1, hex(cs.getPropertyValue("--hot"))]]
+    };
+  }
+  const LMIN = Math.log10(0.004), LMAX = Math.log10(50);
+  function color(v) {
+    const a = Math.abs(v);
+    if (a <= 0) return palette.stops[0][1];
+    const t = Math.min(1, Math.max(0, (Math.log10(a) - LMIN) / (LMAX - LMIN)));
+    const S = palette.stops;
+    for (let i = 1; i < S.length; i++) {
+      if (t <= S[i][0]) {
+        const s = (t - S[i - 1][0]) / (S[i][0] - S[i - 1][0]);
+        return S[i - 1][1].map((c, k) => Math.round(c + (S[i][1][k] - c) * s));
+      }
+    }
+    return S[S.length - 1][1];
+  }
+
+  let geom;
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = canvas.clientWidth;
+    if (!w) return false;
+    const cell = w / W;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(cell * R * dpr);
+    geom = { cell: cell * dpr, gap: Math.max(1, cell * dpr * 0.14) };
+    return true;
+  }
+  function drawRow(n, empty) {
+    const { cell, gap } = geom;
+    const y = canvas.height - (n + 1) * cell; // 下から上へ時間が進む
+    for (let k = 0; k < W; k++) {
+      const c = empty ? palette.stops[0][1] : color(rows[n][k]);
+      ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+      ctx.fillRect(k * cell + gap / 2, y + gap / 2, cell - gap, cell - gap);
+    }
+  }
+  function drawAll(upto) {
+    ctx.fillStyle = palette.bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let n = 0; n < R; n++) drawRow(n, n > upto);
+  }
+
+  let raf = 0, shownRows = R - 1;
+  function play() {
+    cancelAnimationFrame(raf);
+    if (reduce.matches) { shownRows = R - 1; drawAll(shownRows); return; }
+    const start = performance.now(), dur = 1600;
+    shownRows = -1;
+    drawAll(shownRows);
+    const tick = now => {
+      const target = Math.min(R - 1, Math.floor(((now - start) / dur) * R));
+      while (shownRows < target) { shownRows++; drawRow(shownRows, false); }
+      if (shownRows < R - 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+
+  readPalette();
+  if (resize()) play();
+  new ResizeObserver(() => { if (resize()) drawAll(shownRows); }).observe(canvas);
+  const redraw = () => { readPalette(); if (geom) drawAll(shownRows); };
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
+  new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  document.getElementById("replay").addEventListener("click", play);
+})();
+
+/* ---------- いま見ている節をナビで示す ---------- */
+(function navSpy() {
+  const links = [...document.querySelectorAll("#nav-links a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(a => a.removeAttribute("aria-current"));
+        const a = map.get(e.target.id);
+        if (a) a.setAttribute("aria-current", "true");
+      }
+    });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll("main .sec").forEach(s => io.observe(s));
+})();
+</script>
+
+</body>
+</html>
