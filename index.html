@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
+<html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ryosuke Tsubota</title>
-<meta name="description" content="坪田凌輔（武蔵野大学大学院 工学研究科 数理工学専攻）の研究ページ">
+<title>坪田凌輔 | Ryosuke Tsubota</title>
+<meta name="description" content="坪田凌輔（Ryosuke Tsubota）の研究者ページ．武蔵野大学大学院 工学研究科 数理工学専攻 博士課程．離散半線形波動方程式の解の爆発と寿命評価を研究しています．">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="坪田凌輔 | Ryosuke Tsubota">
+<meta property="og:description" content="坪田凌輔（Ryosuke Tsubota）の研究者ページ．武蔵野大学大学院 工学研究科 数理工学専攻 博士課程．離散半線形波動方程式の解の爆発と寿命評価を研究しています．">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "坪田凌輔", "alternateName": ["Ryosuke Tsubota", "坪田 凌輔", "ツボタ リョウスケ"], "affiliation": {"@type": "CollegeOrUniversity", "name": "武蔵野大学大学院 工学研究科 数理工学専攻"}, "knowsAbout": ["差分方程式", "非線形波動方程式", "解の爆発", "寿命評価", "数値解析"], "sameAs": ["https://researchmap.jp/ryosuket"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;700&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&amp;family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Zen+Old+Mincho:wght@600;700&amp;display=swap">
 <style>
 body { margin: 0; }
 img { max-width: 100%; }
@@ -286,21 +291,21 @@ footer .wrap {
 <header class="hero" id="top">
   <div class="wrap hero-text">
     <p class="eyebrow">Researcher's page · Mathematical Engineering</p>
-    <h1><span class="ja" id="name-ja"></span><span class="en" id="name-en"></span></h1>
-    <p class="aff" id="hero-aff"></p>
-    <p class="thesis" id="hero-thesis"></p>
+    <h1><span class="ja" id="name-ja">坪田 凌輔</span><span class="en" id="name-en">Ryosuke Tsubota</span></h1>
+    <p class="aff" id="hero-aff">武蔵野大学大学院 工学研究科 数理工学専攻 博士課程</p>
+    <p class="thesis" id="hero-thesis">非線形偏微分方程式を差分化した方程式について，解の<strong>爆発</strong>と<strong>寿命</strong>を研究しています．</p>
   </div>
   <figure class="wrap lattice">
     <div class="lattice-frame">
       <span class="axis axis-t">↑ 時間 n</span>
-      <canvas id="lattice" role="img" aria-label="差分スキームで計算した数値解の時空図．下から上へ時間が進み，中央付近で値が急増して爆発する．"></canvas>
+      <canvas id="lattice" role="img" aria-label="差分スキームで計算した数値解の時空図．下から上へ時間が進み，中央付近で値が急増して爆発する．" style="aspect-ratio: 101 / 43;"></canvas>
       <span class="axis axis-x">空間 j →</span>
     </div>
     <figcaption>
       <span class="cap">
         1 次元の中心差分スキーム
         <span class="m"><i>u</i><sub><i>j</i></sub><sup><i>n</i>+1</sup> = <i>u</i><sub><i>j</i>+1</sub><sup><i>n</i></sup> + <i>u</i><sub><i>j</i>−1</sub><sup><i>n</i></sup> − <i>u</i><sub><i>j</i></sub><sup><i>n</i>−1</sup> + <i>δ</i><sup>2</sup>|<i>u</i><sub><i>j</i></sub><sup><i>n</i></sup>|<sup><i>p</i></sup></span>
-        （<span class="m"><i>p</i> = 2</span>）による数値解の時空図．各マスが格子点 (<i>j</i>, <i>n</i>) を表し，色は <span class="m">|<i>u</i><sub><i>j</i></sub><sup><i>n</i></sup>|</span> の大きさ（対数目盛）．台の有界な初期値から出発し，<span id="blow-note">有限の時間ステップで爆発する</span>．
+        （<span class="m"><i>p</i> = 2</span>）による数値解の時空図．各マスが格子点 (<i>j</i>, <i>n</i>) を表し，色は <span class="m">|<i>u</i><sub><i>j</i></sub><sup><i>n</i></sup>|</span> の大きさ（対数目盛）．台の有界な初期値から出発し，<span id="blow-note"><span class="m"><i>n</i> = 41</span> で <span class="m">|<i>u</i>|</span> が <span class="m">10<sup>6</sup></span> を超える（爆発）</span>．
       </span>
       <span class="legend" aria-hidden="true">0 <span class="bar"></span> 爆発</span>
       <button class="btn" id="replay" type="button">もう一度計算する</button>
@@ -312,57 +317,156 @@ footer .wrap {
   <section class="sec" id="about">
     <div class="wrap">
       <header class="sec-head"><h2><span class="sym">§</span>About</h2><p>自己紹介</p></header>
-      <div class="sec-body" id="about-body"></div>
+      <div class="sec-body" id="about-body">
+    <div class="about-top"><div class="avatar" aria-hidden="true">坪</div>
+      <div class="intro"><p>武蔵野大学大学院 工学研究科 数理工学専攻 博士課程 1 年の坪田凌輔です．非線形偏微分方程式を差分化した方程式を対象に，解の爆発現象と寿命の評価を研究しています．ご覧いただきありがとうございます．</p><p class="en" lang="en">I am Ryosuke Tsubota, a first-year Ph.D. student in Mathematical Engineering at the Graduate School of Engineering, Musashino University. I study blow-up phenomena and lifespan estimates for difference equations obtained by discretizing nonlinear partial differential equations.</p></div>
+    </div>
+    <dl class="facts"><dt>所属</dt><dd>武蔵野大学大学院 工学研究科 数理工学専攻 博士課程</dd><dt>学位</dt><dd>修士（2025 年 3 月，武蔵野大学）</dd><dt>研究分野</dt><dd>数理解析学</dd><dt>研究キーワード</dt><dd>偏差分方程式の爆発問題，非線形方程式の爆発問題</dd><dt>関心のある分野</dt><dd>可積分系・超離散系，セルオートマトン，走化性方程式</dd><dt>趣味</dt><dd>ボディビル鑑賞，筋トレ，サウナ巡り</dd><dt>連絡先</dt><dd>tsubotastudy[at]gmail.com</dd></dl></div>
     </div>
   </section>
 
   <section class="sec" id="research">
     <div class="wrap">
       <header class="sec-head"><h2><span class="sym">§</span>Research</h2><p>研究内容</p></header>
-      <div class="sec-body" id="research-body"></div>
+      <div class="sec-body" id="research-body"><article class="theme">
+      <div class="theme-title"><h3>離散半線形波動方程式の解の爆発と寿命</h3></div>
+      <p class="en" lang="en">Blow-up and lifespan for discrete semilinear wave equations</p>
+      <p>半線形波動方程式 <span class="m">∂<sub><i>t</i></sub><sup>2</sup><i>u</i> − Δ<i>u</i> = |<i>u</i>|<sup><i>p</i></sup></span> を差分化して得られる方程式について，小さな初期値に対する解の爆発と寿命の評価を研究している．連続の場合に知られている Strauss 指数や Kato 指数といった臨界指数が，離散化した方程式においてどのように現れるかに関心がある．</p>
+      <p>空間 1 次元の場合には，反復法を用いて寿命の評価を得た <a class="cite" href="#pub-kiyo2025">[2]</a>．空間 <span class="m"><i>d</i></span> 次元（<span class="m"><i>d</i> ≥ 2</span>）の場合には，松家により導入された離散半線形波動方程式に対し，Kato 指数 <span class="m"><i>p</i><sub>K</sub>(<i>d</i>) = (<i>d</i> + 1)/(<i>d</i> − 1)</span> について <span class="m">1 &lt; <i>p</i> ≤ <i>p</i><sub>K</sub>(<i>d</i>)</span> のとき，連続の場合と同じオーダーの寿命の上からの評価を与えた <a class="cite" href="#pub-jsiam2026">[1]</a>．</p>
+      <ul class="chips"><li>差分方程式</li><li>解の爆発</li><li>寿命評価</li><li>臨界指数</li><li>反復法</li></ul>
+    </article><article class="theme">
+      <div class="theme-title"><h3>差分スキームの収束性と数値爆発時刻</h3><span class="status">進行中</span></div>
+      <p class="en" lang="en">Convergence of the scheme and numerical blow-up time</p>
+      <p>離散半線形波動方程式を与える松家型スキームについて，連続問題の解への収束性と安定性を調べている．さらに，数値解の爆発時刻が連続問題の爆発時刻に収束することの証明に取り組んでいる．</p>
+      
+      <ul class="chips"><li>数値解析</li><li>収束性</li><li>安定性</li><li>数値爆発時刻</li></ul>
+    </article></div>
     </div>
   </section>
 
   <section class="sec" id="publications">
     <div class="wrap">
       <header class="sec-head"><h2><span class="sym">§</span>Publications</h2><p>論文</p></header>
-      <div class="sec-body"><ol class="pubs" id="pubs"></ol></div>
+      <div class="sec-body"><ol class="pubs" id="pubs"><li id="pub-jsiam2026">
+      <span class="num">[1]</span>
+      <div>
+        <div><b class="me">Ryosuke Tsubota</b>, Kohei Higashi, Keisuke Matsuya, Takiko Sasaki, Tetsuji Tokihiro, <span class="title">Lifespan upper bounds on a discrete semilinear wave equation</span>, </div>
+        <div>JSIAM Letters <b>18</b> (2026), 25–28.</div>
+        <div class="meta"><span>査読有り・筆頭著者</span><a href="https://doi.org/10.14495/jsiaml.18.25" target="_blank" rel="noopener">doi:10.14495/jsiaml.18.25</a></div>
+      </div>
+    </li><li id="pub-kiyo2025">
+      <span class="num">[2]</span>
+      <div>
+        <div><b class="me">坪田 凌輔</b>，松家 敬介，東 康平，佐々木 多希子，時弘 哲治，<span class="title-ja">「空間1次元における離散半線形波動方程式におけるlifespan評価」</span>，</div>
+        <div>武蔵野大学数理工学センター紀要 <b>10</b> (2025)，61–72．</div>
+        <div class="meta"><span>紀要論文</span></div>
+      </div>
+    </li></ol></div>
     </div>
   </section>
 
   <section class="sec" id="talks">
     <div class="wrap">
       <header class="sec-head"><h2><span class="sym">§</span>Talks</h2><p>講演・口頭発表</p></header>
-      <div class="sec-body" id="talks-body"></div>
+      <div class="sec-body" id="talks-body"><div><h3 class="sub-head">発表実績 · Past</h3><ul class="rows"><li class="">
+      <span class="when">2026.11.01</span>
+      <div class="what">
+        <strong>離散半線形波動方程式に対する解析と近況報告</strong><span class="kind">口頭発表</span>
+        <div class="sub">応用数学フレッシュマンセミナー2026，キャンパスプラザ京都</div>
+        
+      </div>
+    </li><li class="">
+      <span class="when">2026.10.11</span>
+      <div class="what">
+        <strong>離散半線形波動方程式の収束性と安定性</strong><span class="kind">口頭発表</span>
+        <div class="sub">非線形波動から可積分系へ 2026</div>
+        <div class="sub authors"><b class="me">坪田 凌輔</b>，松家 敬介</div>
+      </div>
+    </li><li class="">
+      <span class="when">2026.08.25</span>
+      <div class="what">
+        <strong>Sharp Lifespan Estimates for One-Dimensional Discrete Semilinear Wave Equations</strong><span class="kind">ポスター</span>
+        <div class="sub">The 19th East Asia Section of SIAM Annual Meeting (EASIAM 2026)</div>
+        <div class="sub authors"><b class="me">Tsubota Ryosuke</b>, Higashi Kohei</div>
+      </div>
+    </li><li class="">
+      <span class="when">2025.10.31</span>
+      <div class="what">
+        <strong>空間 1 次元における離散半線形波動方程式の lifespan 評価</strong><span class="kind">ポスター</span>
+        <div class="sub">非線形波動から可積分系へ 2025</div>
+        <div class="sub authors"><b class="me">坪田 凌輔</b>，東 康平，松家 敬介，佐々木 多希子，時弘 哲治</div>
+      </div>
+    </li><li class="">
+      <span class="when">2025.03.04</span>
+      <div class="what">
+        <strong>A blow-up theorem for discrete semilinear wave equation</strong><span class="kind">招待講演</span>
+        <div class="sub">The 15th Taiwan-Japan Joint Workshop for Young Scholars in Applied Mathematics</div>
+        <div class="sub authors"><b class="me">Ryosuke Tsubota</b>, Keisuke Matsuya, Kohei Higashi, Takiko Sasaki, Tetsuji Tokihiro</div>
+      </div>
+    </li><li class="">
+      <span class="when">2024.11.08</span>
+      <div class="what">
+        <strong>離散半線形波動方程式における lifespan 評価</strong><span class="kind">口頭発表</span>
+        <div class="sub">非線形波動から可積分系へ 2024</div>
+        <div class="sub authors"><b class="me">坪田 凌輔</b>，松家 敬介，東 康平，佐々木 多希子，時弘 哲治</div>
+      </div>
+    </li><li class="">
+      <span class="when">2024.10.19</span>
+      <div class="what">
+        <strong>離散半線形波動方程式におけるlifespan評価</strong><span class="kind">ポスター</span>
+        <div class="sub">数学・数理科学専攻若手研究者のための異分野異業種研究交流会</div>
+        <div class="sub authors"><b class="me">坪田 凌輔</b>，松家 敬介，東 康平，佐々木 多希子，時弘 哲治</div>
+      </div>
+    </li><li class="">
+      <span class="when">2024.09.16</span>
+      <div class="what">
+        <strong>離散半線形波動方程式の解のlifespan評価</strong><span class="kind">口頭発表</span>
+        <div class="sub">日本応用数理学会 2024 年度年会</div>
+        <div class="sub authors"><b class="me">坪田 凌輔</b>，松家 敬介，東 康平，佐々木 多希子，時弘 哲治</div>
+      </div>
+    </li><li class="">
+      <span class="when">2024.07.07</span>
+      <div class="what">
+        <strong>離散半線形波動方程式における解のlifespan評価</strong><span class="kind">口頭発表</span>
+        <div class="sub">MEMS デバイスに発生する touch-down 現象の制御に向けた数理的アプローチ</div>
+        
+      </div>
+    </li></ul></div></div>
     </div>
   </section>
 
   <section class="sec" id="experience">
     <div class="wrap">
       <header class="sec-head"><h2><span class="sym">§</span>Experience</h2><p>経歴</p></header>
-      <div class="sec-body"><ul class="rows" id="experience-list"></ul></div>
+      <div class="sec-body"><ul class="rows" id="experience-list"><li><span class="when">2026.4 –</span>
+      <div class="what"><strong>武蔵野大学大学院 工学研究科 数理工学専攻 博士課程</strong></div></li><li><span class="when">2025.3</span>
+      <div class="what"><strong>武蔵野大学大学院 修士課程 修了</strong><div class="sub">修士</div></div></li></ul></div>
     </div>
   </section>
 
   <section class="sec" id="awards">
     <div class="wrap">
       <header class="sec-head"><h2><span class="sym">§</span>Awards</h2><p>受賞・奨学金</p></header>
-      <div class="sec-body"><ul class="rows" id="awards-list"></ul></div>
+      <div class="sec-body"><ul class="rows" id="awards-list"><li><span class="when">2025.3</span>
+      <div class="what"><strong>Excellent Research Award</strong><div class="sub">The 15th Taiwan-Japan Joint Workshop for Young Scholars in Applied Mathematics（A blow-up theorem for discrete semilinear wave equation）</div></div></li><li><span class="when">2025.2</span>
+      <div class="what"><strong>武蔵野大学大学院研究支援奨学金</strong><div class="sub">武蔵野大学</div></div></li><li><span class="when">2024.10</span>
+      <div class="what"><strong>ベストポスター賞</strong><div class="sub">数学・数理科学専攻若手研究者のための異分野異業種研究交流会（離散半線形波動方程式におけるlifespan評価）</div></div></li><li><span class="when">2023.7</span>
+      <div class="what"><strong>武蔵野大学大学院研究支援奨学金</strong><div class="sub">武蔵野大学</div></div></li></ul></div>
     </div>
   </section>
 
   <section class="sec" id="links">
     <div class="wrap">
       <header class="sec-head"><h2><span class="sym">§</span>Links</h2><p>関連リンク</p></header>
-      <div class="sec-body"><div class="links" id="links-list"></div></div>
+      <div class="sec-body"><div class="links" id="links-list"><a class="link" href="https://researchmap.jp/ryosuket" target="_blank" rel="noopener"><span class="name">researchmap</span><span class="desc">研究業績の一覧</span><span class="url">researchmap.jp/ryosuket</span></a><a class="link" href="https://doi.org/10.14495/jsiaml.18.25" target="_blank" rel="noopener"><span class="name">JSIAM Letters</span><span class="desc">論文 [1]（J-STAGE）</span><span class="url">doi.org/10.14495/jsiaml.18.25</span></a></div></div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <span id="copyright"></span>
-    <span id="updated"></span>
+    <span id="copyright">© 2026 Ryosuke Tsubota</span>
+    <span id="updated">最終更新 2026.11.01</span>
   </div>
 </footer>
 
@@ -754,5 +858,6 @@ render();
 })();
 </script>
 
-</body>
-</html>
+
+
+</body></html>
